@@ -1,0 +1,6 @@
+Kiek auto turi ratu?	1.viena	2.du	3.keturis	3
+Kas turi pirmuma lygiareiksmeje sankryzoje?	1.AUDI	2.MERSAS	3.Tan kur viskas dzin	3
+Koks yra maksimalus promiliu leistinas kiekis?	1.0,5	2.0,1	3.0,4	3
+Ar leidziama ne marsrutiniam transportui vaziuoti ne A juosta?	1.Taip	2.NE	3.Galbut	2
+Kokios automobilio markes logo sudarytas is 4 ziedu?	1.Audi	2.BMW	3.SAAB	1
+Maziausias leistinas greitis automagistraleje?	1.60	2.40	4.70	1
