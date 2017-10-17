@@ -30,23 +30,20 @@ public class Controller implements Initializable {
 
     private int selected = 1;
 
-    private int countAnswers = 0;
-
     public void answer(ActionEvent event) {
 
         Toggle toggle = answers.getSelectedToggle();
         if (toggle != null) {
-          checkAnswer(toggle);
-        }else{
+            checkAnswer(toggle);
+        } else {
             showErrorMessage();
         }
     }
 
-
-    private void checkAnswer(Toggle toggle){
+    private void checkAnswer(Toggle toggle) {
         Question question = randomQuestion.get(selected);
         if (question.getCorrectAns() == (int) toggle.getUserData()) {
-            countAnswers++;
+            question.setAnsweredCorrect(true);
         }
         Question nextQuestion = randomQuestion.get(++selected);
         if (nextQuestion != null) {
@@ -56,15 +53,16 @@ public class Controller implements Initializable {
         }
     }
 
-    private void showErrorMessage(){
+    private void showErrorMessage() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText("Please select correct answer");
         alert.show();
     }
-    
-    private void showTotalScore(){
+
+    private void showTotalScore() {
+        long temp = randomQuestion.entrySet().stream().filter(map-> map.getValue().isAnsweredCorrect()).count();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("Jus atsakete teisingai i " + countAnswers + " klausimus is " + randomQuestion.size());
+        alert.setContentText("Jus atsakete teisingai i " + temp + " klausimus is " + randomQuestion.size());
         alert.setOnCloseRequest(new EventHandler<DialogEvent>() {
             @Override
             public void handle(DialogEvent event) {
@@ -87,19 +85,19 @@ public class Controller implements Initializable {
         List<RadioButton> radioButtons = Arrays.asList(firstAnswer, secondAnswer, thirdAnswer);
         int temVal = 1;
         questionLabel.setText(question.getQuestion());
-        for(int i = 0; i<radioButtons.size(); i++){
+        for (int i = 0; i < radioButtons.size(); i++) {
             radioButtons.get(i).setText(question.getTempAnswers().get(i));
             radioButtons.get(i).setUserData(temVal++);
         }
         Toggle toggle = answers.getSelectedToggle();
-        if(toggle != null){
+        if (toggle != null) {
             toggle.setSelected(false);
         }
     }
 
     private void generateQuestions(List<Question> questions) {
         int val = 1;
-        while (randomQuestion.size() != (questions.size()/2)) {
+        while (randomQuestion.size() != (questions.size() / 2)) {
             Random random = new Random();
             int index = random.nextInt(questions.size());
             if (randomQuestion.get(index) == null) {

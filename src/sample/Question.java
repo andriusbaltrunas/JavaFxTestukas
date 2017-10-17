@@ -11,6 +11,7 @@ public class Question {
     private String question;
     private int correctAns;
     private List<String> tempAnswers;
+    private boolean answeredCorrect;
 
     public Question(String question, int correctAns, String... tempAnswer) {
         this.question = question;
@@ -28,5 +29,13 @@ public class Question {
 
     public List<String> getTempAnswers() {
         return tempAnswers;
+    }
+
+    public boolean isAnsweredCorrect() {
+        return answeredCorrect;
+    }
+
+    public void setAnsweredCorrect(boolean answeredCorrect) {
+        this.answeredCorrect = answeredCorrect;
     }
 }
