@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -44,6 +45,12 @@ public class Controller implements Initializable {
         }else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Jus atsakete teisingai i " + countAnswers + " klausimus is "+randomQuestion.size());
+            alert.setOnCloseRequest(new EventHandler<DialogEvent>() {
+                @Override
+                public void handle(DialogEvent event) {
+                    System.exit(0);
+                }
+            });
             alert.show();
         }
     }
@@ -64,6 +71,10 @@ public class Controller implements Initializable {
         for(int i = 0; i<radioButtons.size(); i++){
             radioButtons.get(i).setText(question.getTempAnswers().get(i));
             radioButtons.get(i).setUserData(temVal++);
+        }
+        Toggle toggle = atsakymai.getSelectedToggle();
+        if(toggle != null){
+            toggle.setSelected(false);
         }
     }
 
