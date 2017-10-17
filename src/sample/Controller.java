@@ -15,7 +15,7 @@ public class Controller implements Initializable {
     private Label questionLabel;
 
     @FXML
-    protected ToggleGroup atsakymai;
+    protected ToggleGroup answers;
 
     @FXML
     private RadioButton firstAnswer;
@@ -34,25 +34,44 @@ public class Controller implements Initializable {
 
     public void answer(ActionEvent event) {
 
-        Toggle toggle = atsakymai.getSelectedToggle();
+        Toggle toggle = answers.getSelectedToggle();
+        if (toggle != null) {
+          checkAnswer(toggle);
+        }else{
+            showErrorMessage();
+        }
+    }
+
+
+    private void checkAnswer(Toggle toggle){
         Question question = randomQuestion.get(selected);
-        if(question.getCorrectAns() == (int)toggle.getUserData()){
+        if (question.getCorrectAns() == (int) toggle.getUserData()) {
             countAnswers++;
         }
         Question nextQuestion = randomQuestion.get(++selected);
-        if(nextQuestion!= null){
+        if (nextQuestion != null) {
             setQuestionToGui(nextQuestion);
-        }else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Jus atsakete teisingai i " + countAnswers + " klausimus is "+randomQuestion.size());
-            alert.setOnCloseRequest(new EventHandler<DialogEvent>() {
-                @Override
-                public void handle(DialogEvent event) {
-                    System.exit(0);
-                }
-            });
-            alert.show();
+        } else {
+            showTotalScore();
         }
+    }
+
+    private void showErrorMessage(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText("Please select correct answer");
+        alert.show();
+    }
+    
+    private void showTotalScore(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("Jus atsakete teisingai i " + countAnswers + " klausimus is " + randomQuestion.size());
+        alert.setOnCloseRequest(new EventHandler<DialogEvent>() {
+            @Override
+            public void handle(DialogEvent event) {
+                System.exit(0);
+            }
+        });
+        alert.show();
     }
 
     @Override
@@ -72,7 +91,7 @@ public class Controller implements Initializable {
             radioButtons.get(i).setText(question.getTempAnswers().get(i));
             radioButtons.get(i).setUserData(temVal++);
         }
-        Toggle toggle = atsakymai.getSelectedToggle();
+        Toggle toggle = answers.getSelectedToggle();
         if(toggle != null){
             toggle.setSelected(false);
         }
